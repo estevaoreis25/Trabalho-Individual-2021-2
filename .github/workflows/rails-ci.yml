@@ -29,6 +29,7 @@ jobs:
         with:
           ruby-version: 3.0.0
       - name: Run rubocop
+        working-directory: ./aplicacao
         run: docker-compose run app bash -c "gem install rubocop; rubocop -l --fail-level F"
         
   test:
