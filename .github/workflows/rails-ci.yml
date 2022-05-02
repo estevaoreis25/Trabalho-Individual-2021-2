@@ -8,9 +8,6 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  defaults:
-  run:
-    working-directory: ./aplicacao
   
 jobs:
   build:
@@ -40,4 +37,5 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Run test
+        working-directory: ./aplicacao
         run: docker-compose run app bash -c "rails db:reset; rspec"
