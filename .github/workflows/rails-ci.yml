@@ -3,13 +3,11 @@ name: "Ruby on Rails CI"
 
 on:
   workflow_call:
-
+  workflow_dispatch:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-
-  workflow_dispatch:
   
 jobs:
   build:
@@ -39,4 +37,4 @@ jobs:
       - uses: actions/checkout@v2
       - name: Run test
         working-directory: ./aplicacao
-        run: docker-compose run app bash -c "rails db:reset; rspec"
+        run: docker-compose run web bash -c "rails db:reset; rspec"
