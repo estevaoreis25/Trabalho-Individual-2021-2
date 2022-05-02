@@ -8,29 +8,39 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  defaults:
+    run:
+      working-directory: ./aplicacao
   
 jobs:
   build:
+    name: "Executar o Build da Aplicação"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Build application
         working-directory: ./aplicacao
         run: docker-compose up -d
 
   lint:
+    name: "Executar o Lint da Aplicação"
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - uses: actions/checkout@v2
-      - name: Run lint
-        working-directory: ./aplicacao
-        run: docker-compose run app bash -c "gem install rubocop; rubocop --fail-level F"
+      - name: checkout code
+        uses: actions/checkout@v3
+      - name: Configure Ruby version
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0.0
+      - name: Add and run rubocop gem
+        run: docker-compose run app bash -c "gem install rubocop; rubocop -l --fail-level F"
         
   test:
+    name: "Executar os Testes da Aplicação"
     runs-on: ubuntu-latest
     needs: lint
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Run test
         run: docker-compose run app bash -c "rails db:reset; rspec"
