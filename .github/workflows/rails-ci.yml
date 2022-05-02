@@ -19,7 +19,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build application
-        working-directory: ./aplicacao
         run: docker-compose up -d
 
   lint:
