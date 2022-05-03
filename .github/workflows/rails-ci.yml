@@ -20,9 +20,12 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.0.0
-      - name: Run rubocop
+      - name: Install rubocop
         working-directory: ./aplicacao
         run: gem install rubocop
+      - name: Run rubocop
+        working-directory: ./aplicacao
+        run: rubocop -A --fail-level F
         
   test:
     runs-on: ubuntu-latest
