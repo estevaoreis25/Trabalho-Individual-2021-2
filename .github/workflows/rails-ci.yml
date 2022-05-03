@@ -42,3 +42,18 @@ jobs:
       - name: Run test
         working-directory: ./aplicacao
         run: docker-compose run web bash -c "rails db:reset; rspec"
+
+  push-to-docker-hub:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Docker push
+        env:
+         DOCKER_USER: ${{secrets.DOCKER_USERNAME}}
+         DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+         IMAGE: estevaoreis/bibliotecaRails:${{ github.sha }}
+       run: |
+         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+         docker build -t $IMAGE .
+         docker push $IMAGE
