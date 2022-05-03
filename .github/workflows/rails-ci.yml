@@ -43,7 +43,7 @@ jobs:
         working-directory: ./aplicacao
         run: docker-compose run web bash -c "rails db:reset; rspec"
 
-  push-to-docker-hub:
+  push-dockerhub:
     needs: build
     runs-on: ubuntu-latest
     steps:
