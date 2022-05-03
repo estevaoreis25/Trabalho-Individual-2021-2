@@ -42,8 +42,8 @@ jobs:
       - name: Run test
         working-directory: ./aplicacao
         run: docker-compose run web bash -c "rails db:reset; rspec"
-        
-  push-dockerhub:
+  
+  dockerhub:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -52,7 +52,7 @@ jobs:
           DOCKER_USER: ${{secrets.DOCKER_USERNAME}}
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
           IMAGE: estevaoreis/bibliotecaRails:${{ github.sha }}
-       run: |
-         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-         docker build -t $IMAGE .
-         docker push $IMAGE
+        run: |
+          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+          docker build -t $IMAGE .
+          docker push $IMAGE
