@@ -10,6 +10,14 @@ on:
     branches: [ main ]
   
 jobs:
+  build:
+    needs: [lint, test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build application
+        working-directory: ./aplicacao
+        run: docker-compose up -d
 
   lint:
     runs-on: ubuntu-latest
